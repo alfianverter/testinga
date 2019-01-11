@@ -180,8 +180,7 @@ async def skip(con):
 
 @bot.command(pass_context=True)
 async def join(con):
-   channel = con.message.author.voice.voice_channel
-     await bot.join_voice_channel(channel)
+   bot.join_voice_channel(con.message.author.voice.voice_channel)
 
 @bot.command(pass_context=True)
 async def leave(con):
