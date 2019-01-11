@@ -158,9 +158,11 @@ async def after_song(con, skip, clear):
 
 @bot.command(pass_context=True)
 async def play(con):
-                song = await bot.voice_client_in(con.message.server).create_ytdl_player('https://www.youtube.com/watch?v=1QQlUah25UI')
-                servers_songs[con.message.server.id] = song
-                servers_songs[con.message.server.id].start()
+     server = con.message.server
+     voice_client = bot.voice_client_in(server)
+     player = await voice_client.create_ytdl_player('https://www.youtube.com/watch?v=1QQlUah25UI')
+     players[server.id] = player
+     player.start()
 
 
 
@@ -177,37 +179,9 @@ async def skip(con):
             bot.loop.create_task(queue_songs(con, True, False))
 
 @bot.command(pass_context=True)
-async def join(con,*,channel=None):
-    """JOIN A VOICE CHANNEL THAT THE USR IS IN OR MOVE TO A VOICE CHANNEL IF THE BOT IS ALREADY IN A VOICE CHANNEL"""
-
-
-    # COMMAND IS IN DM
-    if con.message.channel.is_private == True:
-        await bot.send_message(con.message.channel, "**You must be in a `server text channel` to use this command**")
-
-    # COMMAND NOT IN DM
-    if con.message.channel.is_private == False:
-        voice_status = bot.is_voice_connected(con.message.server)
-
-        voice=find(lambda m:m.name == channel,con.message.server.channels)
-
-        if voice_status == False and channel == None:  # VOICE NOT CONNECTED
-            if con.message.author.voice_channel == None:
-                await bot.send_message(con.message.channel,"**You must be in a voice channel or give a voice channel name to join**")
-            if con.message.author.voice_channel != None:
-                await bot.join_voice_channel(con.message.author.voice.voice_channel)
-
-        if voice_status == False and channel != None:  # PICKING A VOICE CHANNEL
-            await bot.join_voice_channel(voice)
-
-        if voice_status == True:  # VOICE ALREADY CONNECTED
-            if voice == None:
-                await bot.send_message(con.message.channel, "**Bot is already connected to a voice channel**")
-
-
-            if voice != None:            
-                if voice.type == discord.ChannelType.voice:
-                     await bot.voice_client_in(con.message.server).move_to(voice)
+async def join(con):
+   channel = con.message.author.voice.voice_channel
+     await bot.join_voice_channel(channel)
 
 @bot.command(pass_context=True)
 async def leave(con):
