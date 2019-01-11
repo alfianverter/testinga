@@ -238,12 +238,6 @@ async def join(con,*,channel=None):
                      await bot.voice_client_in(con.message.server).move_to(voice)
 
 @bot.command(pass_context=True)
-async def join(con):
-    song = await bot.voice_client_in(con.message.server).create_ytdl_player('https://www.youtube.com/watch?v=1QQlUah25UI')
-     servers_songs[con.message.server.id] = song
-     servers_songs[con.message.server.id].start()
-
-@bot.command(pass_context=True)
 async def leave(con):
     """LEAVE THE VOICE CHANNEL AND STOP ALL SONGS AND CLEAR QUEUE"""
     # COMMAND USED IN DM
@@ -305,7 +299,12 @@ async def volume(con,vol:float):
         servers_songs[con.message.server.id].volume =vol;
 
 
-
+@bot.command(pass_context=True)
+async def join(con):
+    server = con.message.server
+    player = await bot.voice_client_in(con.message.server).create_ytdl_player('https://www.youtube.com/watch?v=1QQlUah25UI')
+     players[server.id] = player
+     player.start()
 
 # if __name__ == "__main__":
 #     for extension in extensions:
