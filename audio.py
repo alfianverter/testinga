@@ -83,14 +83,6 @@ async def on_ready():
     bot.loop.create_task(bg())
     print(bot.user.name)
 
-@bot.command(pass_context=True)
-async def play(ctx):
-     server = ctx.message.server
-     voice_client = bot.voice_client_in(server)
-     player = await voice_client.create_ytdl_player('https://www.youtube.com/watch?v=1QQlUah25UI')
-     players[server.id] = player
-     player.start()
-
 @bot.event
 async def on_voice_state_update(before, after):
     if bot.is_voice_connected(before.server) == True: #bot is connected to voice channel in the server
@@ -184,7 +176,7 @@ async def play(con, *, url):
             if player_status[con.message.server.id] == False:
                 player_status[con.message.server.id] = True
                 song_names[con.message.server.id].append(url)
-                song = await bot.voice_client_in(con.message.server).create_ytdl_player(song_names[con.message.server.id][0], ytdl_options=opts, after=lambda: bot.loop.create_task(after_song(con, False, False)))
+                song = await bot.voice_client_in(con.message.server).create_ytdl_player('https://www.youtube.com/watch?v=1QQlUah25UI')
                 servers_songs[con.message.server.id] = song
                 servers_songs[con.message.server.id].start()
                 r = rq.Session().get('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q={}&key=AIzaSyDy4gizNmXYWykfUACzU_RsaHtKVvuZb9k'.format(url)).json()
