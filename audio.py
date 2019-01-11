@@ -83,7 +83,7 @@ async def on_ready():
     bot.loop.create_task(bg())
     print(bot.user.name)
 
-@client.command(pass_context=True)
+@bot.command(pass_context=True)
 async def play(ctx):
      server = ctx.message.server
      voice_client = bot.voice_client_in(server)
