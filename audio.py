@@ -34,4 +34,4 @@ async def play(ctx):
      players[server.id] = player
      player.start()
 
-bot.run(os.environ['BOT_TOKEN']) #do not post your bot token publically 
+client.run(os.environ['BOT_TOKEN']) #do not post your bot token publically 
