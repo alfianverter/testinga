@@ -61,6 +61,7 @@ player_status = {}
 now_playing = {}
 song_names = {}
 paused = {}
+players = {}
 rq_channel={}
 
 
