@@ -161,7 +161,7 @@ async def after_song(con, skip, clear):
 
 
 @bot.command(pass_context=True)
-async def play(con):
+async def play(con, *, url):
     """PLAY THE GIVEN SONG AND QUEUE IT IF THERE IS CURRENTLY SOGN PLAYING"""
     if con.message.channel.is_private == True:
         await bot.send_message(con.message.channel, "**You must be in a `server text channel` to use this command**")
@@ -173,13 +173,13 @@ async def play(con):
 
         if bot.is_voice_connected(con.message.server) == True:
             if player_status[con.message.server.id] == True:
-                song_names[con.message.server.id].append('https://www.youtube.com/watch?v=1QQlUah25UI')
+                song_names[con.message.server.id].append(url)
                 r = rq.Session().get('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q={}&key=put your youtube token here'.format(url)).json()
                 await bot.send_message(con.message.channel, "**Song `{}` Queued**".format(r['items'][0]['snippet']['title']))
 
             if player_status[con.message.server.id] == False:
                 player_status[con.message.server.id] = True
-                song_names[con.message.server.id].append('https://www.youtube.com/watch?v=1QQlUah25UI')
+                song_names[con.message.server.id].append(url)
                 song = await bot.voice_client_in(con.message.server).create_ytdl_player(song_names[con.message.server.id][0], ytdl_options=opts, after=lambda: bot.loop.create_task(after_song(con, False, False)))
                 servers_songs[con.message.server.id] = song
                 servers_songs[con.message.server.id].start()
