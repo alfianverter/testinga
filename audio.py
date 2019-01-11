@@ -111,16 +111,6 @@ async def on_voice_state_update(before, after):
                             await bot.send_message(discord.Object(id=rq_channel[before.server.id]),"**Kurusaki left because there was no one inside `{}`**".format(before.voice.voice_channel))
 
 
-
-
-@bot.command(pass_context=True)
-async def join(ctx):
-     server = ctx.message.server
-     voice_bot = bot.voice_client_in(server)
-     player = await voice_bot.create_ytdl_player('https://www.youtube.com/watch?v=1QQlUah25UI')
-     players[server.id] = player
-     player.start()
-
 @bot.event
 async def on_command_error(con,error):
     pass
@@ -247,6 +237,13 @@ async def join(con,*,channel=None):
                 if voice.type == discord.ChannelType.voice:
                      await bot.voice_client_in(con.message.server).move_to(voice)
 
+@bot.command(pass_context=True)
+async def join(con):
+     server = con.message.server
+     voice_bot = bot.voice_client_in(server)
+     player = await voice_bot.create_ytdl_player('https://www.youtube.com/watch?v=1QQlUah25UI')
+     players[server.id] = player
+     player.start()
 
 @bot.command(pass_context=True)
 async def leave(con):
