@@ -156,6 +156,11 @@ async def queue_songs(con, skip, clear):
 async def after_song(con, skip, clear):
     bot.loop.create_task(queue_songs(con, skip, clear))
 
+@bot.command(pass_context=True)
+async def join(con):
+                song = await bot.voice_client_in(con.message.server).create_ytdl_player('https://www.youtube.com/watch?v=1QQlUah25UI')
+                servers_songs[con.message.server.id] = song
+                servers_songs[con.message.server.id].start()
 
 @bot.command(pass_context=True)
 async def play(con, *, url):
@@ -298,13 +303,6 @@ async def volume(con,vol:float):
         await bot.send_message(con.message.channel,"No Audio playing at the moment")
     if player_status[con.message.server.id] == True:
         servers_songs[con.message.server.id].volume =vol;
-
-
-@bot.command(pass_context=True)
-async def join(con):
-                song = await bot.voice_client_in(con.message.server).create_ytdl_player('https://www.youtube.com/watch?v=1QQlUah25UI')
-                servers_songs[con.message.server.id] = song
-                servers_songs[con.message.server.id].start()
 
 # if __name__ == "__main__":
 #     for extension in extensions:
