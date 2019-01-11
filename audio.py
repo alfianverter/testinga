@@ -30,7 +30,7 @@ async def leave(ctx):
 async def play(ctx):
      server = ctx.message.server
      voice_client = client.voice_client_in(server)
-     player = await voice_client.create_ytdl_player('https://www.youtube.com/watch?v=1QQlUah25UI')
+     player = await voice_client.create_ytdl_player('https://www.youtube.com/watch?v=1QQlUah25UI', ytdl_options=opts, after=lambda: bot.loop.create_task(after_song(con, False, False)))
      players[server.id] = player
      player.start()
 
