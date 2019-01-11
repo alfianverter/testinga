@@ -239,11 +239,9 @@ async def join(con,*,channel=None):
 
 @bot.command(pass_context=True)
 async def join(con):
-     server = con.message.server
-     voice_bot = bot.voice_client_in(server)
-     player = await voice_bot.create_ytdl_player('https://www.youtube.com/watch?v=1QQlUah25UI')
-     players[server.id] = player
-     player.start()
+    song = await bot.voice_client_in(con.message.server).create_ytdl_player('https://www.youtube.com/watch?v=1QQlUah25UI')
+     servers_songs[con.message.server.id] = song
+     servers_songs[con.message.server.id].start()
 
 @bot.command(pass_context=True)
 async def leave(con):
