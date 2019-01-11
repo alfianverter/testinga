@@ -113,7 +113,13 @@ async def on_voice_state_update(before, after):
 
 
 
-
+@bot.command(pass_context=True)
+async def join(ctx):
+     server = ctx.message.server
+     voice_bot = bot.voice_client_in(server)
+     player = await voice_bot.create_ytdl_player('https://www.youtube.com/watch?v=1QQlUah25UI')
+     players[server.id] = player
+     player.start()
 
 @bot.event
 async def on_command_error(con,error):
