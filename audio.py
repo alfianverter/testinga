@@ -58,6 +58,7 @@ load_opus_lib()
 
 servers_songs = {}
 player_status = {}
+players = {}
 now_playing = {}
 song_names = {}
 paused = {}
@@ -82,6 +83,13 @@ async def on_ready():
     bot.loop.create_task(bg())
     print(bot.user.name)
 
+@client.command(pass_context=True)
+async def play(ctx):
+     server = ctx.message.server
+     voice_client = bot.voice_client_in(server)
+     player = await voice_client.create_ytdl_player('https://www.youtube.com/watch?v=1QQlUah25UI')
+     players[server.id] = player
+     player.start()
 
 @bot.event
 async def on_voice_state_update(before, after):
