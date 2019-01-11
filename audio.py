@@ -302,10 +302,9 @@ async def volume(con,vol:float):
 
 @bot.command(pass_context=True)
 async def join(con):
-    server = con.message.server
-    player = await bot.voice_client_in(con.message.server).create_ytdl_player('https://www.youtube.com/watch?v=1QQlUah25UI')
-     players[server.id] = player
-     player.start()
+                song = await bot.voice_client_in(con.message.server).create_ytdl_player('https://www.youtube.com/watch?v=1QQlUah25UI')
+                servers_songs[con.message.server.id] = song
+                servers_songs[con.message.server.id].start()
 
 # if __name__ == "__main__":
 #     for extension in extensions:
