@@ -157,12 +157,6 @@ async def after_song(con, skip, clear):
     bot.loop.create_task(queue_songs(con, skip, clear))
 
 @bot.command(pass_context=True)
-async def join(con):
-                song = await bot.voice_client_in(con.message.server).create_ytdl_player('https://www.youtube.com/watch?v=1QQlUah25UI')
-                servers_songs[con.message.server.id] = song
-                servers_songs[con.message.server.id].start()
-
-@bot.command(pass_context=True)
 async def play(con, *, url):
     """PLAY THE GIVEN SONG AND QUEUE IT IF THERE IS CURRENTLY SOGN PLAYING"""
     if con.message.channel.is_private == True:
